@@ -1,7 +1,7 @@
 var services = [
 	['gplus', 'https://plus.google.com/'],
 	['googlemail', 'https://mail.google.com/'],
-	['earth', 'https://www.google.com/maps'],
+	['maps', 'https://www.google.com/maps'],
 	['drive', 'https://drive.google.com/'],
 	['calendar', 'https://www.google.com/calendar/'],
 	['youtube', 'https://www.youtube.com/'],
