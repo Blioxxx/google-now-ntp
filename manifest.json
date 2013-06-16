@@ -1,0 +1,16 @@
+{
+  "name": "Google Now NTP",
+  "version": "0.8",
+  "description": "New tab page styled like Google Now",
+  "chrome_url_overrides" : {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "topSites",
+    "chrome://favicon/",
+    "geolocation",
+    "management"
+  ],
+  "content_security_policy": "script-src 'self' https://api.wunderground.com https://encrypted.google.com; object-src 'self'",
+  "manifest_version": 2
+}
