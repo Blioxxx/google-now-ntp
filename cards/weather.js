@@ -34,13 +34,17 @@ window.cards.weather = function(ready){
 		'<ul class="forecast"></ul>'+
 		'<div style="clear:both"></div></article>');
 	
+	var finished = 0;
+	
 	$.getJSON('https://api.wunderground.com/api/'+apiKey+'/conditions/q/VT/Burlington.json?callback=?', function(data){
 		var current = data.current_observation;
 		card.find('.current_temperature').html(Math.round(current.temp_f)+'&deg;');
 		card.find('.location').text(current.display_location.full);
 		card.find('.current_icon').attr('src', 'https://ssl.gstatic.com/onebox/weather/128/'+icons[current.icon]+'.png');
 		card.find('.current_conditions').text(current.weather);
-		ready(card);
+		
+		finished++;
+		if (finished == 2) ready(card);
 	});
 	
 	$.getJSON('https://api.wunderground.com/api/'+apiKey+'/forecast/q/VT/Burlington.json?callback=?', function(data){
@@ -55,6 +59,8 @@ window.cards.weather = function(ready){
 			
 			el.appendTo(card.find('.forecast'));
 		}
+		finished++;
+		if (finished == 2) ready(card);
 	});
 };
 
