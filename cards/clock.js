@@ -3,13 +3,14 @@ var clock = card('clock');
 clock.config.schema = {
 	showSeconds: card.config.bool('Show seconds'),
 	showDate: card.config.bool('Show date'),
+	showColons: card.config.bool('Show colons'),
 	'24hour': card.config.bool('24 hour')
 };
 clock.config.default = {
 	showSeconds: true,
 	showDate: true,
-	'24hour': false,
-	showColons: false
+	showColons: false,
+	'24hour': false
 };
 
 clock.prototype.controller = function(callback){
