@@ -1,3 +1,7 @@
+var googleservices = card('googleservices');
+googleservices.config.schema = {};
+googleservices.config.default = {};
+
 var services = [
 	['gplus', 'https://plus.google.com/'],
 	['googlemail', 'https://mail.google.com/'],
@@ -13,15 +17,22 @@ var services = [
 	['translate', 'https://translate.google.com/']
 ];
 
-window.cards.googleservices = function(ready){
-	var card = $('<article class="card googleservices"></article>');
+googleservices.prototype.controller = function(callback){
+	var out = {icons: []};
 	for (var i in services) {
-		var service = $('<a><img/></a>');
-		service.attr('href', services[i][1]);
-		service.find('img').attr('src', '../icons/'+services[i][0]+'-32.png');
-		service.appendTo(card);
+		out.icons.push({
+			url: services[i][1],
+			icon: 'icons/'+services[i][0]+'-32.png'
+		});
 	}
-	ready(card);
+	callback && callback(out);
 };
 
-makeCard('googleservices', '.rightColumn');
+googleservices.prototype.view = function(data){
+	for (var i in data.icons) {
+		var service = $('<a><img/></a>');
+		service.attr('href', data.icons[i].url);
+		service.find('img').attr('src', data.icons[i].icon);
+		service.appendTo(this.element);
+	}
+};

@@ -9,8 +9,12 @@
     "topSites",
     "chrome://favicon/",
     "geolocation",
-    "management"
+    "management",
+    "tabs"
   ],
+  "background": {
+    "page": "background.html"
+  },
   "content_security_policy": "script-src 'self' https://api.wunderground.com https://encrypted.google.com; object-src 'self'",
   "manifest_version": 2
 }
