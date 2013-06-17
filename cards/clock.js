@@ -8,24 +8,36 @@ clock.config.schema = {
 clock.config.default = {
 	showSeconds: true,
 	showDate: true,
-	'24hour': false
+	'24hour': false,
+	showColons: false
 };
 
 clock.prototype.controller = function(callback){
 	var out = {};
 	var now = new Date();
 	
-	out.hours = now.getHours()%12 || 12;
+	out.hours = now.getHours();
+	if (!this.config['24hour']) {
+		out.hours = out.hours%12 || 12;
+	}
 	
 	var minutes = now.getMinutes();
 	if (minutes < 10) minutes = '0'+minutes;
 	out.minutes = minutes;
 	
-	var seconds = now.getSeconds();
-	if (seconds < 10) seconds = '0'+seconds;
-	out.seconds = seconds;
+	if (this.config.showSeconds) {
+		var seconds = now.getSeconds();
+		if (seconds < 10) seconds = '0'+seconds;
+		out.seconds = seconds;
+	} else {
+		out.seconds = '';
+	}
 	
-	out.ampm = (now.getHours() < 12) ? 'am' : 'pm';
+	if (this.config['24hour']) {
+		out.ampm = '';
+	} else {
+		out.ampm = (now.getHours() < 12) ? 'am' : 'pm';
+	}
 	
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	out.dayname = days[now.getDay()];
@@ -52,7 +64,7 @@ clock.prototype.controller = function(callback){
 };
 
 clock.prototype.setup = function(){
-	this.element.html('<h2><span class="hours">6</span><span class="firstcolon">:</span><span class="minutes">24</span><span class="secondcolon">:</span><span class="seconds">39</span> <span class="ampm">pm</span></h2><h3><span class="dayname">Friday</span><span class="comma">,</span> <span class="month">June</span> <span class="date">15</span><span class="datesuffix">th</span> <span class="year">2013</span></h3>');
+	this.element.html('<h2><span class="hours"></span><span class="firstcolon">:</span><span class="minutes"></span><span class="secondcolon">:</span><span class="seconds"></span> <span class="ampm"></span></h2><h3><span class="dayname"></span><span class="comma">,</span> <span class="month"></span> <span class="date"></span><span class="datesuffix"></span> <span class="year"></span></h3>');
 };
 
 clock.prototype.view = function(data){
@@ -65,6 +77,24 @@ clock.prototype.view = function(data){
 	this.element.find('.date').text(data.date);
 	this.element.find('.datesuffix').text(data.datesuffix);
 	this.element.find('.year').text(data.year);
+	
+	if (this.config.showColons) {
+		this.element.find('.firstcolon, .secondcolon').css('color', 'inherit');
+	} else {
+		this.element.find('.firstcolon, .secondcolon').css('color', 'transparent');
+	}
+	
+	if (this.config.showSeconds) {
+		this.element.find('.secondcolon').show();
+	} else {
+		this.element.find('.secondcolon').hide();
+	}
+	
+	if (this.config.showDate) {
+		this.element.find('h3').show();
+	} else {
+		this.element.find('h3').hide();
+	}
 	
 	var self = this;
 	setTimeout(function(){
