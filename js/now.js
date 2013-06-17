@@ -27,7 +27,6 @@ for (var columnID in config.layout) {
 			}
 		}
 		var newCard = new cards[cardName]();
-		console.log(newCard);
 		newCard.setConfig(options);
 		newCard.setup();
 		(function(cid){
