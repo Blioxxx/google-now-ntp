@@ -2,8 +2,21 @@ var recent = card('recent');
 recent.config.schema = {};
 recent.config.default = {};
 
+var lastClosedTabs = 0;
 recent.prototype.controller = function(callback){
-	callback && callback(chrome.extension.getBackgroundPage().recentlyClosed.slice(0, 4));
+	if (lastClosedTabs != chrome.extension.getBackgroundPage().numberOfClosedTabs) {
+		lastClosedTabs = chrome.extension.getBackgroundPage().numberOfClosedTabs;
+		callback && callback(chrome.extension.getBackgroundPage().recentlyClosed.slice(0, 4));
+	}
+	var self = this;
+	if (this.nextRefresh) {
+		clearTimeout(this.nextRefresh);
+	}
+	this.nextRefresh = setTimeout(function(){
+		if (self && self.element) {
+			self.run();
+		}
+	}, 1000);
 };
 
 recent.prototype.view = function(list){
@@ -16,13 +29,9 @@ recent.prototype.view = function(list){
 		thumb.appendTo(this.element);
 	}
 	
-	var self = this;
-	if (this.nextRefresh) {
-		clearTimeout(this.nextRefresh);
+	if (!list) {
+		this.parent.hide();
+	} else {
+		this.parent.show();
 	}
-	this.nextRefresh = setTimeout(function(){
-		if (self && self.element) {
-			self.run();
-		}
-	}, 1000);
 };
