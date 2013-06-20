@@ -92,9 +92,9 @@ clock.prototype.view = function(data){
 	}
 	
 	if (this.config.showDate) {
-		this.element.find('h3').show();
+		this.element.find('h4').show();
 	} else {
-		this.element.find('h3').hide();
+		this.element.find('h4').hide();
 	}
 	
 	var self = this;
