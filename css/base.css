@@ -42,7 +42,7 @@ header input {
 	font-family: inherit;
 }
 
-header input, .card .front, .card .back {
+header input {
 	border: 0;
 	border-radius: 3px;
 	padding: 10px;
