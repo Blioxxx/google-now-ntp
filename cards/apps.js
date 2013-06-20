@@ -11,7 +11,7 @@ apps.config.schema = {
 apps.config.default = {
 	size: 64,
 	showText: true,
-	columns: 4
+	columns: 5
 };
 
 apps.prototype.controller = function(callback){
