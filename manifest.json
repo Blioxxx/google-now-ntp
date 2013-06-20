@@ -1,5 +1,5 @@
 {
-  "name": "Google Now NTP",
+  "name": "Google Now New Tab Page",
   "version": "0.8",
   "description": "New tab page styled like Google Now",
   "chrome_url_overrides" : {
@@ -14,6 +14,12 @@
   ],
   "background": {
     "page": "background.html"
+  },
+  "icons": {
+    "16": "icons/weather-16.png",
+    "64": "icons/weather-48.png",
+    "64": "icons/weather-64.png",
+    "128": "icons/weather-128.png"
   },
   "content_security_policy": "script-src 'self' https://api.wunderground.com https://encrypted.google.com; object-src 'self'",
   "manifest_version": 2
