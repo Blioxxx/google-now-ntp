@@ -1,0 +1,29 @@
+.card.weather .current_temperature {
+	font-size: 3em;
+	line-height: 1;
+}
+.card.weather .current_conditions {
+	padding-left: 3px;
+}
+.card.weather .current_icon, .card.weather .current_text {
+	display: inline-block;
+	vertical-align: middle;
+}
+.card.weather .forecast {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.card.weather .forecast li {
+	width: 25%;
+	float: left;
+	box-sizing: border-box;
+	padding: 5px;
+	text-align: center;
+}
+.card.weather .forecast .day, .card.weather .forecast .temp {
+	display: block;
+}
+.card.weather .forecast .low {
+	color: #888;
+}

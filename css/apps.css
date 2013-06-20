@@ -1,0 +1,25 @@
+.card.apps {
+	text-align: center;
+}
+.card.apps .front div {
+	margin: -10px 0 0;
+}
+.card.apps .app {
+	display: inline-block;
+	font-size: 12px;
+	margin-top: 10px;
+	color: inherit;
+	text-decoration: none;
+	padding: 0 5px;
+	box-sizing: border-box;
+}
+.card.apps .appname {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	display: block;
+}
+.card.apps .app:hover {
+	text-decoration: underline;
+}

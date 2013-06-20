@@ -1,0 +1,53 @@
+html, body, header, form, input {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	outline: 0;
+}
+
+body {
+	background: #e5e5e5;
+	font-family: Roboto, sans-serif;
+}
+
+header {
+	height: 180px;
+	background: no-repeat center bottom;
+	background-size: cover;
+	position: relative;
+	
+	text-align: center;
+}
+
+html.dawn header {
+	background-image: url(../banner/dawn.jpg);
+}
+html.day header {
+	background-image: url(../banner/day.jpg);
+}
+html.dusk header {
+	background-image: url(../banner/dusk.jpg);
+}
+html.night header {
+	background-image: url(../banner/night.jpg);
+}
+
+header form {
+	position: absolute;
+	bottom: 20px;
+	width: 100%;
+}
+header input {
+	font-size: 16px;
+	font-family: inherit;
+}
+
+header input, .card .front, .card .back {
+	border: 0;
+	border-radius: 3px;
+	padding: 10px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+	background: #fff;
+	width: 40%;
+	box-sizing: border-box;
+}

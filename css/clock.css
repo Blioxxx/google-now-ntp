@@ -1,0 +1,29 @@
+.card.clock {
+	text-align: center;
+	line-height: 1;
+}
+.card.clock h3 {
+	font-size: 5em;
+}
+.card.clock h4 {
+	line-height: 1.5em;
+}
+.card.clock .hours {
+	font-weight: 500;
+}
+.card.clock .seconds {
+	font-weight: 100;
+}
+.card.clock .ampm {
+	font-weight: 100;
+	vertical-align: super;
+	font-size: 0.5em;
+}
+.card.clock .firstcolon, .card.clock .secondcolon {
+	color: transparent;
+}
+.card.clock .datesuffix {
+	vertical-align: super;
+	font-size: 0.5em;
+	font-weight: 400;
+}
