@@ -1,13 +1,3 @@
-var config = {
-	headerHeight: 180,
-	columns: 2,
-	width: 70,
-	layout: {
-		1: [{card: 'googleservices'}, {card: 'apps'}, {card: 'topsites'}, {card: 'recent'}],
-		2: [{card: 'clock'}, {card: 'weather'}],
-	}
-};
-
 $('.columns').css('width', config.width+'%');
 
 for (var i = 1; i <= config.columns; i++) {
@@ -26,7 +16,7 @@ for (var columnID in config.layout) {
 				options[attribute] = config.layout[columnID][i][attribute];
 			}
 		}
-		var newCard = new cards[cardName]();
+		var newCard = new cards[cardName](columnID, i);
 		newCard.setConfig(options);
 		newCard.setup();
 		newCard.show('.column[data-id="'+columnID+'"]');
