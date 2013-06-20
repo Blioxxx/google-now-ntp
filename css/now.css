@@ -283,6 +283,10 @@ header input, .card .front, .card .back {
 	font-size: 14px;
 	line-height: 1;
 	-webkit-backface-visibility: hidden;
+	display: none;
+}
+.card:hover .configbutton, .card:hover .unconfigbutton {
+	display: block;
 }
 .unconfigbutton {
 	-webkit-transform: rotateX(180deg);
