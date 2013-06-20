@@ -29,6 +29,7 @@ googleservices.prototype.controller = function(callback){
 };
 
 googleservices.prototype.view = function(data){
+	this.element.html('');
 	for (var i in data.icons) {
 		var service = $('<a><img/></a>');
 		service.attr('href', data.icons[i].url);

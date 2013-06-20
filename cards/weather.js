@@ -1,6 +1,15 @@
 var weather = card('weather');
-weather.config.schema = {};
-weather.config.default = {};
+weather.config.schema = {
+	units: new card.config.options('Temperature units', {
+		f: 'Fahrenheit',
+		c: 'Celsius'
+	}),
+	location: new card.config.text('Location', 'automatic')
+};
+weather.config.default = {
+	units: 'f',
+	location: 'automatic'
+};
 
 var apiKey = 'fa3194c70aa8c632';
 
@@ -27,17 +36,28 @@ var icons = {
 	'tstorms': 'thunderstorms'
 };
 
+weather.prototype.getLocation = function(callback){
+	if (this.config.location != 'automatic') {
+		callback(this.config.location);
+	} else {
+		getLocation(function(loc){
+			callback(loc.lat+','+loc.long);
+		});
+	}
+};
+
 weather.prototype.controller = function(callback){
 	var out = {};
 	
-	getLocation(function(loc){
-		var q = '/q/'+loc.lat+','+loc.long;
+	var self = this;
+	
+	this.getLocation(function(loc){
 		var finished = 0;
 		
-		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/conditions'+q+'.json?callback=?', function(data){
+		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/conditions/q/'+loc+'.json?callback=?', function(data){
 			var current = data.current_observation;
 			out.current = {
-				temperature: Math.round(current.temp_f),
+				temperature: Math.round( (self.config.units == 'f') ? current.temp_f : current.temp_c ),
 				location: current.display_location.full,
 				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icons[current.icon]+'.png',
 				conditions: current.weather
@@ -48,15 +68,15 @@ weather.prototype.controller = function(callback){
 			if (finished == 2) callback && callback(out);
 		});
 		
-		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/forecast'+q+'.json?callback=?', function(data){
+		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/forecast/q/'+loc+'.json?callback=?', function(data){
 			var forecast = data.forecast.simpleforecast.forecastday;
 			out.forecast = [];
 			for (var i in forecast) {
 				out.forecast.push({
 					day: (i == 0) ? 'Today' : forecast[i].date.weekday_short,
 					icon: 'https://ssl.gstatic.com/onebox/weather/64/'+icons[forecast[i].icon]+'.png',
-					high: forecast[i].high.fahrenheit,
-					low: forecast[i].low.fahrenheit
+					high: (self.config.units == 'f') ? forecast[i].high.fahrenheit : forecast[i].high.celsius,
+					low: (self.config.units == 'f') ? forecast[i].low.fahrenheit : forecast[i].low.celsius
 				});
 			}
 			finished++;
@@ -75,6 +95,7 @@ weather.prototype.view = function(data){
 	this.element.find('.current_icon').attr('src', data.current.icon);
 	this.element.find('.current_conditions').text(data.current.conditions);
 	
+	this.element.find('.forecast').html('');
 	for (var i in data.forecast) {
 		var el = $('<li><span class="day"></span><img alt="" class="icon"/><span class="temp"><span class="high"></span> <span class="low"></span></span></li>');
 		

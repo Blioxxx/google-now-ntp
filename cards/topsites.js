@@ -18,6 +18,7 @@ topsites.prototype.controller = function(callback){
 };
 
 topsites.prototype.view = function(data){
+	this.element.html('');
 	for (var i in data.sites) {
 		var thumb = $('<a><span class="thumbbox"><img class="favicon" src="" alt=""/></span><span class="sitename"></span></a>');
 		thumb.find('.favicon').attr('src', 'chrome://favicon/'+data.sites[i].url);

@@ -1,12 +1,12 @@
 var apps = card('apps');
 apps.config.schema = {
-	size: card.config.options('Icon size', {
+	size: new card.config.options('Icon size', {
 		32: 'Small',
 		64: 'Medium',
 		128: 'Large'
 	}),
-	showText: card.config.bool('App names'),
-	columns: card.config.number('Columns', 1, 10)
+	showText: new card.config.bool('App names'),
+	columns: new card.config.number('Columns', 1, 10)
 };
 apps.config.default = {
 	size: 64,
@@ -58,9 +58,10 @@ apps.prototype.view = function(data){
 		listItem.attr('title', data.apps[i].description);
 		
 		listItem.find('.icon').attr('src', data.apps[i].icon);
+		console.log(data.apps[i].icon);
 		listItem.find('.icon').css({
-			'max-height': this.config.size,
-			'max-width': this.config.size
+			maxHeight: this.config.size+'px',
+			maxWidth: this.config.size+'px'
 		});
 		if (this.config.showText) {
 			listItem.find('.appname').text(data.apps[i].name);
@@ -69,5 +70,5 @@ apps.prototype.view = function(data){
 		listItem.appendTo(appList);
 	}
 	
-	appList.appendTo(this.element);
+	this.element.html(appList);
 };

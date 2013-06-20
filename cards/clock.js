@@ -1,13 +1,13 @@
 var clock = card('clock');
 
 clock.config.schema = {
-	showSeconds: card.config.bool('Show seconds'),
-	showDate: card.config.bool('Show date'),
-	showColons: card.config.bool('Show colons'),
-	'24hour': card.config.bool('24 hour')
+	showSeconds: new card.config.bool('Show seconds'),
+	showDate: new card.config.bool('Show date'),
+	showColons: new card.config.bool('Show colons'),
+	'24hour': new card.config.bool('24 hour')
 };
 clock.config.default = {
-	showSeconds: true,
+	showSeconds: false,
 	showDate: true,
 	showColons: false,
 	'24hour': false
@@ -65,7 +65,7 @@ clock.prototype.controller = function(callback){
 };
 
 clock.prototype.setup = function(){
-	this.element.html('<h2><span class="hours"></span><span class="firstcolon">:</span><span class="minutes"></span><span class="secondcolon">:</span><span class="seconds"></span> <span class="ampm"></span></h2><h3><span class="dayname"></span><span class="comma">,</span> <span class="month"></span> <span class="date"></span><span class="datesuffix"></span> <span class="year"></span></h3>');
+	this.element.html('<h3><span class="hours"></span><span class="firstcolon">:</span><span class="minutes"></span><span class="secondcolon">:</span><span class="seconds"></span> <span class="ampm"></span></h3><h4><span class="dayname"></span><span class="comma">,</span> <span class="month"></span> <span class="date"></span><span class="datesuffix"></span> <span class="year"></span></h4>');
 };
 
 clock.prototype.view = function(data){
@@ -98,7 +98,10 @@ clock.prototype.view = function(data){
 	}
 	
 	var self = this;
-	setTimeout(function(){
+	if (this.nextRefresh) {
+		clearTimeout(this.nextRefresh);
+	}
+	this.nextRefresh = setTimeout(function(){
 		if (self && self.element) {
 			self.run();
 		}

@@ -8,7 +8,6 @@ html, body, header, form, input {
 body {
 	background: #e5e5e5;
 	font-family: Roboto, sans-serif;
-	overflow: hidden;
 }
 
 header {
@@ -43,7 +42,7 @@ header input {
 	font-family: inherit;
 }
 
-header input, .card {
+header input, .card .front, .card .back {
 	border: 0;
 	border-radius: 3px;
 	padding: 10px;
@@ -64,6 +63,7 @@ header input, .card {
 	float: left;
 	min-height: 10px;
 	padding: 0 5px;
+	-webkit-perspective: 500px;
 }
 .column:first-child {
 	padding: 0 5px 0 10px;
@@ -73,26 +73,46 @@ header input, .card {
 }
 
 .card {
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: -webkit-transform 0.3s linear;
 	margin: 10px auto 0;
-	display: none;
-	-webkit-transform: translate3d(0,800px,0);
-	transform: translate3d(0,800px,0);
+}
+.card .front, .card .back {
+	display: block;
 	width: 100%;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
 }
 
-.card h2, .card h3, .card p {
+.card .back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 10px;
+	-webkit-transform: rotateX(180deg);
+}
+.card.flipped {
+	-webkit-transform: rotateX(180deg);
+}
+
+.card h2, .card h3, .card h4, .card p {
 	font-weight: 300;
 	margin: 0;
+}
+.card h2 {
+	text-align: left;
 }
 
 .card.clock {
 	text-align: center;
 	line-height: 1;
 }
-.card.clock h2 {
+.card.clock h3 {
 	font-size: 5em;
 }
-.card.clock h3 {
+.card.clock h4 {
 	line-height: 1.5em;
 }
 .card.clock .hours {
@@ -146,8 +166,7 @@ header input, .card {
 }
 
 .card.suggestions {
-	-webkit-transform: none;
-	transform: none;
+	display: none;
 	width: 40%;
 	position: absolute;
 	z-index: 1;
@@ -210,7 +229,7 @@ header input, .card {
 .card.apps {
 	text-align: center;
 }
-.card.apps div {
+.card.apps .front div {
 	margin: -10px 0 0;
 }
 .card.apps .app {
@@ -231,4 +250,40 @@ header input, .card {
 }
 .card.apps .app:hover {
 	text-decoration: underline;
+}
+
+.card .config dl {
+	margin: 0;
+	padding: 0;
+}
+.card .config dt {
+	float: left;
+	clear: left;
+	width: 50%;
+	text-align: right;
+	padding-right: 5px;
+	box-sizing: border-box;
+}
+.card .config dd {
+	float: left;
+	clear: right;
+	width: 50%;
+	margin: 0;
+	box-sizing: border-box;
+	text-align: left;
+	padding-left: 5px;
+}
+
+.configbutton, .unconfigbutton {
+	position: absolute;
+	top: 3px;
+	bottom: 3px;
+	right: 5px;
+	color: #CCC;
+	font-size: 14px;
+	line-height: 1;
+	-webkit-backface-visibility: hidden;
+}
+.unconfigbutton {
+	-webkit-transform: rotateX(180deg);
 }
