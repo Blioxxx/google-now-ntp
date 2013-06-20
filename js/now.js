@@ -3,7 +3,7 @@ var config = {
 	columns: 2,
 	width: 70,
 	layout: {
-		1: [{card: 'apps', columns: 5, showText: false}, {card: 'googleservices'}, {card: 'topsites'}],
+		1: [{card: 'googleservices'}, {card: 'apps'}, {card: 'topsites'}, {card: 'recent'}],
 		2: [{card: 'clock'}, {card: 'weather'}],
 	}
 };
@@ -29,10 +29,9 @@ for (var columnID in config.layout) {
 		var newCard = new cards[cardName]();
 		newCard.setConfig(options);
 		newCard.setup();
-		(function(cid){
-			newCard.run(function(){
-				this.show('.column[data-id="'+cid+'"]');
-			});
-		})(columnID);
+		newCard.show('.column[data-id="'+columnID+'"]');
+		newCard.run(function(){
+			this.parent.show();
+		});
 	}
 }

@@ -1,4 +1,4 @@
-.card.topsites span {
+.card.recent span {
 	display: block;
 	text-align: center;
 	white-space: nowrap;
@@ -6,17 +6,17 @@
 	overflow: hidden;
 	line-height: 30px;
 }
-.card.topsites .sitename {
+.card.recent .sitename {
 	width: 100%;
 }
-.card.topsites .thumbbox {
+.card.recent .thumbbox {
 }
-.card.topsites .favicon {
+.card.recent .favicon {
 	vertical-align: middle;
 	width: 16px;
 	height: 16px;
 }
-.card.topsites a {
+.card.recent a {
 	display: inline-block;
 	width: 25%;
 	box-sizing: border-box;
@@ -27,6 +27,6 @@
 	text-decoration: none;
 }
 
-.card.topsites a:hover span {
+.card.recent a:hover span {
 	text-decoration: underline;
 }

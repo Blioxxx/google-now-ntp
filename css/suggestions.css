@@ -22,6 +22,6 @@
 	cursor: pointer;
 }
 
-.card.suggestions li:hover {
+.card.suggestions li:hover, .card.suggestions li.active {
 	text-decoration: underline;
 }

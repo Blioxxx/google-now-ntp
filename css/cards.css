@@ -22,6 +22,7 @@
 	-webkit-transform-style: preserve-3d;
 	-webkit-transition: -webkit-transform 0.3s linear;
 	margin: 10px auto 0;
+	display: none;
 }
 .card .front, .card .back {
 	display: block;
@@ -93,7 +94,7 @@
 	bottom: 3px;
 	right: 5px;
 	color: #CCC;
-	font-size: 14px;
+	font-size: 16px;
 	line-height: 1;
 	-webkit-backface-visibility: hidden;
 	display: none;
