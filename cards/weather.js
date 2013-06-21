@@ -47,33 +47,33 @@ weather.prototype.getLocation = function(callback){
 };
 
 weather.prototype.controller = function(callback){
-	var out = cache.get('weather');
-	if (out) {
-		callback && callback(out);
-		return;
-	} else {
-		out = {};
-	}
-	
 	var self = this;
-	
-	var finish = function(){
-		var ttl = 1000 * 60 * 60;
-		var now = new Date();
-		if (now.getHours() == 11) {
-			var ttl = 3600000-((now.getMinutes()*60000)+(now.getSeconds()*1000)+now.getMilliseconds());
-		}
-		cache.set('weather', out, ttl);
-		callback && callback(out);
-	};
-	
 	this.getLocation(function(loc){
+		var cacheKey = 'weather_'+loc;
+		var out = cache.get(cacheKey);
+		if (out) {
+			callback && callback(out);
+			return;
+		} else {
+			out = {};
+		}
+		
+		var finish = function(){
+			var ttl = 1000 * 60 * 60;
+			var now = new Date();
+			if (now.getHours() == 11) {
+				var ttl = 3600000-((now.getMinutes()*60000)+(now.getSeconds()*1000)+now.getMilliseconds());
+			}
+			cache.set(cacheKey, out, ttl);
+			callback && callback(out);
+		};
+		
 		var finished = 0;
 		
 		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/conditions/q/'+loc+'.json?callback=?', function(data){
 			var current = data.current_observation;
 			out.current = {
-				temperature: Math.round( (self.config.units == 'f') ? current.temp_f : current.temp_c ),
+				temperature: {f: Math.round(current.temp_f), c: Math.round(current.temp_c)},
 				location: current.display_location.full,
 				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icons[current.icon]+'.png',
 				conditions: current.weather
@@ -90,8 +90,8 @@ weather.prototype.controller = function(callback){
 				out.forecast.push({
 					day: (i == 0) ? 'Today' : forecast[i].date.weekday_short,
 					icon: 'https://ssl.gstatic.com/onebox/weather/64/'+icons[forecast[i].icon]+'.png',
-					high: (self.config.units == 'f') ? forecast[i].high.fahrenheit : forecast[i].high.celsius,
-					low: (self.config.units == 'f') ? forecast[i].low.fahrenheit : forecast[i].low.celsius
+					high: {f: forecast[i].high.fahrenheit, c: forecast[i].high.celsius},
+					low: {f: forecast[i].low.fahrenheit, c: forecast[i].low.celsius}
 				});
 			}
 			finished++;
@@ -105,7 +105,7 @@ weather.prototype.setup = function(){
 };
 
 weather.prototype.view = function(data){
-	this.element.find('.current_temperature').html(data.current.temperature+'&deg;');
+	this.element.find('.current_temperature').html(data.current.temperature[this.config.units]+'&deg;');
 	this.element.find('.location').text(data.current.location);
 	this.element.find('.current_icon').attr('src', data.current.icon);
 	this.element.find('.current_conditions').text(data.current.conditions);
@@ -116,8 +116,8 @@ weather.prototype.view = function(data){
 		
 		el.find('.day').text( (i == 0) ? 'Today' : data.forecast[i].day );
 		el.find('.icon').attr('src', data.forecast[i].icon);
-		el.find('.high').html(data.forecast[i].high+'&deg;');
-		el.find('.low').html(data.forecast[i].low+'&deg;');
+		el.find('.high').html(data.forecast[i].high[this.config.units]+'&deg;');
+		el.find('.low').html(data.forecast[i].low[this.config.units]+'&deg;');
 		
 		el.appendTo(this.element.find('.forecast'));
 	}
