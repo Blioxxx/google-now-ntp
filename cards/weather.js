@@ -47,9 +47,25 @@ weather.prototype.getLocation = function(callback){
 };
 
 weather.prototype.controller = function(callback){
-	var out = {};
+	var out = cache.get('weather');
+	if (out) {
+		callback && callback(out);
+		return;
+	} else {
+		out = {};
+	}
 	
 	var self = this;
+	
+	var finish = function(){
+		var ttl = 1000 * 60 * 60;
+		var now = new Date();
+		if (now.getHours() == 11) {
+			var ttl = 3600000-((now.getMinutes()*60000)+(now.getSeconds()*1000)+now.getMilliseconds());
+		}
+		cache.set('weather', out, ttl);
+		callback && callback(out);
+	};
 	
 	this.getLocation(function(loc){
 		var finished = 0;
@@ -61,11 +77,10 @@ weather.prototype.controller = function(callback){
 				location: current.display_location.full,
 				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icons[current.icon]+'.png',
 				conditions: current.weather
-				
 			};
 			
 			finished++;
-			if (finished == 2) callback && callback(out);
+			if (finished == 2) finish();
 		});
 		
 		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/forecast/q/'+loc+'.json?callback=?', function(data){
@@ -80,7 +95,7 @@ weather.prototype.controller = function(callback){
 				});
 			}
 			finished++;
-			if (finished == 2) callback && callback(out);
+			if (finished == 2) finish();
 		});
 	});
 };
