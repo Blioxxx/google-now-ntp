@@ -19,10 +19,9 @@
 }
 
 .card {
-	-webkit-transform-style: preserve-3d;
-	-webkit-transition: -webkit-transform 0.3s linear;
 	margin: 10px auto 0;
 	display: none;
+	position: relative;
 }
 .card .front, .card .back {
 	display: block;
@@ -34,9 +33,6 @@
 	border-top-width: 0;
 	box-sizing: border-box;
 	padding: 10px;
-	
-	-webkit-transform-style: preserve-3d;
-	-webkit-backface-visibility: hidden;
 }
 
 .card .back {
@@ -46,14 +42,9 @@
 	right: 0;
 	bottom: 0;
 	padding: 10px;
-	-webkit-transform: rotateX(180deg);
-	transform: rotateX(180deg);
-	-webkit-backface-visibility: hidden;
+	display: none;
 }
 .card.flipped {
-	-webkit-transform: rotateX(180deg);
-	transform: rotateX(180deg);
-	-webkit-backface-visibility: hidden;
 }
 
 .card h2, .card h3, .card h4, .card p {
@@ -100,14 +91,21 @@
 	color: #CCC;
 	font-size: 16px;
 	line-height: 1;
-	-webkit-backface-visibility: hidden;
 	display: none;
 }
-.card:hover .configbutton, .card:hover .unconfigbutton {
+.card:hover .configbutton {
+	display: block;
+}
+.card.flipped .configbutton {
+	display: none;
+}
+.card.flipped:hover .unconfigbutton {
 	display: block;
 }
 .unconfigbutton {
-	-webkit-transform: rotateX(180deg);
-	transform: rotateX(180deg);
-	-webkit-backface-visibility: hidden;
+	display: none;
+}
+
+.card.flipped .back {
+	display: block;
 }
