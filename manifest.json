@@ -1,6 +1,6 @@
 {
-  "name": "Google Now New Tab Page",
-  "version": "0.8",
+  "name": "Cards",
+  "version": "1.0",
   "description": "New tab page styled like Google Now",
   "chrome_url_overrides" : {
     "newtab": "index.html"
