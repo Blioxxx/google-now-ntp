@@ -25,3 +25,9 @@ for (var columnID in config.layout) {
 		});
 	}
 }
+
+$('body').on('keypress', function(e){
+	if (e.which == 13) {
+		$('.card.flipped .unconfigbutton').click();
+	}
+});
