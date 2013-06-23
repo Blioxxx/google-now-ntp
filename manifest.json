@@ -1,16 +1,17 @@
 {
   "name": "Cards",
-  "version": "1.2",
+  "version": "1.2.1",
   "description": "New tab page styled like Google Now",
   "chrome_url_overrides" : {
     "newtab": "index.html"
   },
   "permissions": [
     "topSites",
-    "chrome://favicon/",
     "geolocation",
     "management",
     "tabs",
+    "bookmarks",
+    "chrome://favicon/",
     "http://api.openweathermap.org/"
   ],
   "background": {
