@@ -1,7 +1,7 @@
 var doBanner = function(){
 	getLocation(function(pos){
 		var now = (new Date()).getTime();
-		var times = SunCalc.getTimes(new Date(), pos.lat, pos.long);
+		var times = SunCalc.getTimes(new Date(), pos.lat, pos.lon);
 		var img;
 		if (now >= times.dawn.getTime() && now <= times.goldenHourEnd.getTime()) {
 			img = 'dawn';
