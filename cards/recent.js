@@ -19,6 +19,12 @@ recent.prototype.controller = function(callback){
 	}, 1000);
 };
 
+recent.prototype.destroy = function(){
+	if (this.nextRefresh) {
+		clearTimeout(this.nextRefresh);
+	}
+};
+
 recent.prototype.view = function(list){
 	this.element.html('');
 	for (var i in list) {

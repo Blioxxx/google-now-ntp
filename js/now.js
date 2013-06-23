@@ -17,6 +17,7 @@ for (var i = 1; i <= numberOfColumns; i++) {
 	
 	column.css('width', (100/numberOfColumns)+'%');
 }
+$('.columns').append('<br style="clear:both">');
 
 for (var columnID in config.layout) {
 	for (var i in config.layout[columnID]) {

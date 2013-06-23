@@ -68,6 +68,12 @@ clock.prototype.setup = function(){
 	this.element.html('<h3><span class="hours"></span><span class="firstcolon">:</span><span class="minutes"></span><span class="secondcolon">:</span><span class="seconds"></span> <span class="ampm"></span></h3><h4><span class="dayname"></span><span class="comma">,</span> <span class="month"></span> <span class="date"></span><span class="datesuffix"></span> <span class="year"></span></h4>');
 };
 
+clock.prototype.destroy = function(){
+	if (this.nextRefresh) {
+		clearTimeout(this.nextRefresh);
+	}
+};
+
 clock.prototype.view = function(data){
 	this.element.find('.hours').text(data.hours);
 	this.element.find('.minutes').text(data.minutes);

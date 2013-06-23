@@ -119,3 +119,35 @@
 .card.flipped .back {
 	display: block;
 }
+
+.trash {
+	opacity: 0;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+	
+	position: absolute;
+	top: 10px;
+	left: 30%;
+	right: 30%;
+	height: 0;
+}
+.trash.visible {
+	height: 100%;
+	opacity: 1;
+}
+.trash::before {
+	font-family: FontAwesome;
+	content: "\f014";
+	color: white;
+	text-align: center;
+	line-height: 99px;
+	font-size: 2em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+.trash .cardplaceholder {
+	height: 99px !important;
+	margin: 0;
+}
