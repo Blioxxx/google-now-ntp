@@ -1,10 +1,21 @@
-$('.columns').css('width', config.width+'%');
+var numberOfColumns = Object.keys(config.layout).length;
 
-for (var i = 1; i <= config.columns; i++) {
+var pageWidth;
+if (numberOfColumns == 1) {
+	pageWidth = 40;
+} else if (numberOfColumns == 2) {
+	pageWidth = 70;
+} else {
+	pageWidth = 100;
+}
+
+$('.columns').css('width', pageWidth+'%');
+
+for (var i = 1; i <= numberOfColumns; i++) {
 	var column = $('<div class="column" data-id="'+i+'"></div>');
 	column.appendTo('.columns');
 	
-	column.css('width', (100/config.columns)+'%');
+	column.css('width', (100/numberOfColumns)+'%');
 }
 
 for (var columnID in config.layout) {
