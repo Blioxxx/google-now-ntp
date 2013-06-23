@@ -1,6 +1,12 @@
 $('#globalbuttons .defaultntp').click(function(){
 	chrome.tabs.update({url:"chrome-internal://newtab/"});
 });
+$('#globalbuttons .reset').click(function(){
+	if (confirm('This will reset this extension. Are you sure?')) {
+		localStorage.clear();
+		document.location.reload();
+	}
+});
 
 $('.trash').sortable();
 
@@ -11,7 +17,8 @@ $('.column').sortable({
 	revert: 200,
 	scrollSpeed: 5,
 	distance: 10,
-	cancel: '.nodrag',
+	delay: 150,
+	cancel: '.nodrag, input, select',
 	tolerance: 'cursor',
 	update: function(){
 		config.layout = {};
