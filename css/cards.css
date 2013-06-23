@@ -7,7 +7,7 @@
 	width: 50%;
 	box-sizing: border-box;
 	float: left;
-	min-height: 10px;
+	min-height: 200px;
 	padding: 0 5px;
 	position: relative;
 }
@@ -132,7 +132,7 @@
 	height: 0;
 }
 .trash.visible {
-	height: 100%;
+	height: 200px;
 	opacity: 1;
 }
 .trash::before {
