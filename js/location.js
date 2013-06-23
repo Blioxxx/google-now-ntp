@@ -5,7 +5,7 @@ var getLocation = function(callback){
 		navigator.geolocation.getCurrentPosition(function(pos){
 			var out = {
 				lat: pos.coords.latitude,
-				long: pos.coords.longitude
+				lon: pos.coords.longitude
 			};
 			cache.set('location', out, 1000 * 60);
 			callback && callback(out);

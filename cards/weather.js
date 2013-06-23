@@ -11,45 +11,42 @@ weather.config.default = {
 	location: 'automatic'
 };
 
-var apiKey = 'fa3194c70aa8c632';
+var apiKey = 'bd97a519af0b8fc3e6c9630594847c31';
 
 var icons = {
-	'chanceflurries': 'snow',
-	'chancerain': 'rain',
-	'chancesleet': 'sleet',
-	'chancesnow': 'snow',
-	'chancetstorms': 'thunderstorms',
-	'chanceclear': 'sunny',
-	'clear': 'sunny',
-	'cloudy': 'cloudy',
-	'flurries': 'snow',
-	'fog': 'fog',
-	'hazy': 'fog',
-	'mostlycloudy': 'partly_cloudy',
-	'mostlysunny': 'partly_cloudy',
-	'partlycloudy': 'partly_cloudy',
-	'partlysunny': 'partly_cloudy',
-	'sleet': 'snow',
-	'rain': 'rain',
-	'snow': 'snow',
-	'sunny': 'sunny',
-	'tstorms': 'thunderstorms'
+	'01': 'sunny',
+	'02': 'partly_cloudy',
+	'03': 'partly_cloudy',
+	'04': 'partly_cloudy',
+	'09': 'rain',
+	'10': 'rain',
+	'11': 'thunderstorms',
+	'13': 'snow',
+	'50': 'fog'
 };
+var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 weather.prototype.getLocation = function(callback){
 	if (this.config.location != 'automatic') {
 		callback(this.config.location);
 	} else {
 		getLocation(function(loc){
-			callback(loc.lat+','+loc.long);
+			callback({lat: loc.lat, lon: loc.lon});
 		});
 	}
+};
+
+weather.prototype.ktof = function(kelvin){
+	return ((kelvin - 273.15) * 1.8) + 32;
+};
+weather.prototype.ktoc = function(kelvin){
+	return kelvin - 273.15;
 };
 
 weather.prototype.controller = function(callback){
 	var self = this;
 	this.getLocation(function(loc){
-		var cacheKey = 'weather_'+loc;
+		var cacheKey = 'weather_'+JSON.stringify(loc);
 		var out = cache.get(cacheKey);
 		if (out) {
 			callback && callback(out);
@@ -70,28 +67,45 @@ weather.prototype.controller = function(callback){
 		
 		var finished = 0;
 		
-		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/conditions/q/'+loc+'.json?callback=?', function(data){
-			var current = data.current_observation;
+		var locString;
+		if (typeof loc == 'string') {
+			locString = 'q='+loc;
+		} else {
+			locString = 'lat='+loc.lat+'&lon='+loc.lon;
+		}
+		$.getJSON('http://api.openweathermap.org/data/2.5/weather?'+locString, function(data){
 			out.current = {
-				temperature: {f: Math.round(current.temp_f), c: Math.round(current.temp_c)},
-				location: current.display_location.full,
-				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icons[current.icon]+'.png',
-				conditions: current.weather
+				temperature: {
+					f: Math.round( self.ktof(data.main.temp) ),
+					c: Math.round( self.ktoc(data.main.temp) )
+				},
+				location: data.name,
+				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icons[data.weather[0].icon.substr(0, 2)]+'.png',
+				conditions: data.weather[0].description
 			};
 			
 			finished++;
 			if (finished == 2) finish();
 		});
 		
-		$.getJSON('https://api.wunderground.com/api/'+apiKey+'/forecast/q/'+loc+'.json?callback=?', function(data){
-			var forecast = data.forecast.simpleforecast.forecastday;
+		$.getJSON('http://api.openweathermap.org/data/2.5/forecast/daily?cnt=4&'+locString, function(data){
+			var forecast = data.list;
 			out.forecast = [];
 			for (var i in forecast) {
+				var now = (new Date()).getTime();
+				var day = days[(new Date(now+(1000 * 60 * 60 * 24 * i))).getDay()];
 				out.forecast.push({
-					day: (i == 0) ? 'Today' : forecast[i].date.weekday_short,
-					icon: 'https://ssl.gstatic.com/onebox/weather/64/'+icons[forecast[i].icon]+'.png',
-					high: {f: forecast[i].high.fahrenheit, c: forecast[i].high.celsius},
-					low: {f: forecast[i].low.fahrenheit, c: forecast[i].low.celsius}
+					day: (i == 0) ? 'Today' : day,
+					conditions: forecast[i].weather[0].description,
+					icon: 'https://ssl.gstatic.com/onebox/weather/64/'+icons[forecast[i].weather[0].icon.substr(0, 2)]+'.png',
+					high: {
+						f: Math.round( self.ktof(forecast[i].temp.max) ),
+						c: Math.round( self.ktoc(forecast[i].temp.max) )
+					},
+					low: {
+						f: Math.round( self.ktof(forecast[i].temp.min) ),
+						c: Math.round( self.ktoc(forecast[i].temp.min) )
+					}
 				});
 			}
 			finished++;
@@ -114,6 +128,7 @@ weather.prototype.view = function(data){
 	for (var i in data.forecast) {
 		var el = $('<li><span class="day"></span><img alt="" class="icon"/><span class="temp"><span class="high"></span> <span class="low"></span></span></li>');
 		
+		el.attr('title', data.forecast[i].conditions);
 		el.find('.day').text( (i == 0) ? 'Today' : data.forecast[i].day );
 		el.find('.icon').attr('src', data.forecast[i].icon);
 		el.find('.high').html(data.forecast[i].high[this.config.units]+'&deg;');
