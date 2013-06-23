@@ -4,6 +4,7 @@ $('#globalbuttons .defaultntp').click(function(){
 $('#globalbuttons .reset').click(function(){
 	if (confirm('This will reset this extension. Are you sure?')) {
 		localStorage.clear();
+		localStorage.version = version;
 		document.location.reload();
 	}
 });

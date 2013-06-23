@@ -1,0 +1,19 @@
+#notification {
+	display: none;
+	position: relative;
+	
+	width: 40%;
+	font-size: 14px;
+	margin: auto;
+	margin-top: 10px;
+}
+#notification p {
+	margin: 0;
+}
+#notification .closebutton {
+	position: absolute;
+	top: 0;
+	right: 4px;
+	color: #CCC;
+	font-size: 16px;
+}

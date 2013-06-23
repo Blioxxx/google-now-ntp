@@ -33,7 +33,7 @@
     box-sizing: border-box;
 }
 
-.card .front, .card .back {
+.card .front, .card .back, #notification {
 	display: block;
 	width: 100%;
 	background: #fff;
