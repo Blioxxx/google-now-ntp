@@ -14,7 +14,8 @@ var dragThoseCards = function(){
 };
 var upgradeCallbacks = {
 	'1.1.3 1.2': dragThoseCards,
-	'1.1.3 1.2.1': dragThoseCards
+	'1.1.3 1.2.1': dragThoseCards,
+	'1.1.3 1.2.2': dragThoseCards
 };
 
 $.getJSON('manifest.json', function(data){

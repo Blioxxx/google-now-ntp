@@ -126,7 +126,7 @@
 	transition: opacity 0.5s;
 	
 	position: absolute;
-	top: 10px;
+	top: 40px;
 	left: 30%;
 	right: 30%;
 	height: 0;
@@ -140,7 +140,7 @@
 	content: "\f014";
 	color: white;
 	text-align: center;
-	line-height: 99px;
+	line-height: 74px;
 	font-size: 2em;
 	position: absolute;
 	top: 0;
@@ -148,6 +148,6 @@
 	right: 0;
 }
 .trash .cardplaceholder {
-	height: 99px !important;
+	height: 74px !important;
 	margin: 0;
 }
