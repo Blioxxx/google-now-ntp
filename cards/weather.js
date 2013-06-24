@@ -46,24 +46,7 @@ weather.prototype.ktoc = function(kelvin){
 weather.prototype.controller = function(callback){
 	var self = this;
 	this.getLocation(function(loc){
-		var cacheKey = 'weather_'+JSON.stringify(loc);
-		var out = cache.get(cacheKey);
-		if (out) {
-			callback && callback(out);
-			return;
-		} else {
-			out = {};
-		}
-		
-		var finish = function(){
-			var ttl = 1000 * 60 * 60;
-			var now = new Date();
-			if (now.getHours() == 11) {
-				var ttl = 3600000-((now.getMinutes()*60000)+(now.getSeconds()*1000)+now.getMilliseconds());
-			}
-			cache.set(cacheKey, out, ttl);
-			callback && callback(out);
-		};
+		var out = {};
 		
 		var finished = 0;
 		
@@ -85,7 +68,7 @@ weather.prototype.controller = function(callback){
 			};
 			
 			finished++;
-			if (finished == 2) finish();
+			if (finished == 2) callback && callback(out);
 		});
 		
 		$.getJSON('http://api.openweathermap.org/data/2.5/forecast/daily?cnt=4&'+locString, function(data){
@@ -109,7 +92,7 @@ weather.prototype.controller = function(callback){
 				});
 			}
 			finished++;
-			if (finished == 2) finish();
+			if (finished == 2) callback && callback(out);
 		});
 	});
 };
