@@ -1,4 +1,4 @@
-/*chrome.bookmarks.getSubTree("1", function(data){
+chrome.bookmarks.getSubTree("1", function(data){
 	var list = data[0].children;
 	for (var i in list) {
 		var el = $('<li><a class="link"><img class="favicon" alt=""/><span class="title"></span></a></li>');
@@ -10,4 +10,4 @@
 		
 		el.appendTo('.bookmarksbar');
 	}
-});*/
+});
