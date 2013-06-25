@@ -12,20 +12,21 @@
 	background: rgba(255, 255, 255, 0.6);
 }
 
-.bookmarksbar li {
+.bookmarksbar li, .submenu li {
 	display: inline-block;
 	height: 26px;
 	line-height: 26px;
+	cursor: pointer;
 }
-.bookmarksbar .favicon {
+.bookmarksbar .favicon, .submenu .favicon {
 	vertical-align: top;
 	margin-top: 5px;
 }
-.bookmarksbar .title {
+.bookmarksbar .title, .submenu .title {
 	line-height: 26px;
 	vertical-align: top;
 }
-.bookmarksbar .link {
+.bookmarksbar .link, .submenu .link {
 	text-decoration: none;
 	color: inherit;
 	display: inline-block;
@@ -34,7 +35,19 @@
 	line-height: 26px;
 	padding: 0 6px;
 }
-.bookmarksbar .link:hover {
+.bookmarksbar .link:hover, .submenu .link:hover {
 	background: rgba(0, 0, 0, 0.1);
 }
 
+.submenu {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: rgba(240, 240, 240, 0.8);
+	font-size: 13px;
+}
+
+.submenu li, .submenu .link {
+	display: block;
+}
