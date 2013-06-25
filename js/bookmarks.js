@@ -1,3 +1,7 @@
+if (config.bookmarks) {
+	$('.bookmarksbar').show();
+}
+
 var makeMenu = function(parent, id, callback){
 	if (!id) id = "1";
 	$(parent).attr('data-id', id);
@@ -11,8 +15,9 @@ var makeMenu = function(parent, id, callback){
 				'data-id': list[i].id
 			});
 			if (typeof list[i].children != 'undefined') {
+				var eventType = ($(parent).hasClass('submenu') ? 'mouseenter' : 'click');
 				el.find('.link').addClass('folder')
-					.on('click', function(){
+					.on(eventType, function(){
 						if ($('.submenu[data-id="'+$(this).attr('data-id')+'"]').length) return false;
 						var newMenu = $('<ul class="submenu"></ul>');
 						newMenu.attr('data-parent', id);
