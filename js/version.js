@@ -12,10 +12,16 @@ var notify = function(html){
 var dragThoseCards = function(){
 	notify('<p>Welcome to version '+version+'! You can now rearrange cards by dragging them.</p><p>You can reset your cards with the <i class="icon-refresh"></i> button.</p><p>You can view the default new tab page with the <i class="icon-th"></i> button.</p>');
 };
+var checkOutThoseBookmarks = function(){
+	notify('<p>Welcome to version '+version+'! You can now use your bookmarks bar with the <i class="icon-star"></i> button.</p>');
+};
 var upgradeCallbacks = {
 	'1.1.3 1.2': dragThoseCards,
 	'1.1.3 1.2.1': dragThoseCards,
-	'1.1.3 1.2.2': dragThoseCards
+	'1.1.3 1.2.2': dragThoseCards,
+	'1.2 1.3': checkOutThoseBookmarks,
+	'1.2.1 1.3': checkOutThoseBookmarks,
+	'1.2.2 1.3': checkOutThoseBookmarks
 };
 
 $.getJSON('manifest.json', function(data){
