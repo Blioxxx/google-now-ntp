@@ -29,7 +29,8 @@ recent.prototype.view = function(list){
 	this.element.html('');
 	for (var i in list) {
 		var thumb = $('<a><span class="thumbbox"><img class="favicon" src="" alt=""/></span><span class="sitename"></span></a>');
-		thumb.find('.favicon').attr('src', list[i].favicon);
+		var icon = list[i].favicon || 'chrome://favicon/'+list[i].url;
+		thumb.find('.favicon').attr('src', icon);
 		thumb.find('.sitename').text(list[i].title);
 		thumb.attr('href', list[i].url);
 		thumb.appendTo(this.element);
