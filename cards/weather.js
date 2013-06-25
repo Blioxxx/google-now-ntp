@@ -15,14 +15,22 @@ var apiKey = 'bd97a519af0b8fc3e6c9630594847c31';
 
 var icons = {
 	'01': 'sunny',
-	'02': 'partly_cloudy',
-	'03': 'partly_cloudy',
+	'02': 'sunny_s_cloudy',
+	'03': 'cloudy_s_sunny',
 	'04': 'partly_cloudy',
-	'09': 'rain',
+	'09': 'cloudy_s_rain',
 	'10': 'rain',
 	'11': 'thunderstorms',
 	'13': 'snow',
 	'50': 'fog'
+};
+var conditions = {
+	611: 'sleet',
+	701: 'mist',
+	741: 'fog',
+	804: 'cloudy',
+	905: 'windy',
+	300: 'rain_s_cloudy'
 };
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -57,13 +65,17 @@ weather.prototype.controller = function(callback){
 			locString = 'lat='+loc.lat+'&lon='+loc.lon;
 		}
 		$.getJSON('http://api.openweathermap.org/data/2.5/weather?'+locString, function(data){
+			var icon = icons[data.weather[0].icon.substr(0, 2)];
+			if (conditions[data.weather[0].id]) {
+				icon = conditions[data.weather[0].id];
+			}
 			out.current = {
 				temperature: {
 					f: Math.round( self.ktof(data.main.temp) ),
 					c: Math.round( self.ktoc(data.main.temp) )
 				},
 				location: data.name,
-				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icons[data.weather[0].icon.substr(0, 2)]+'.png',
+				icon: 'https://ssl.gstatic.com/onebox/weather/128/'+icon+'.png',
 				conditions: data.weather[0].description
 			};
 			
@@ -77,10 +89,14 @@ weather.prototype.controller = function(callback){
 			for (var i in forecast) {
 				var now = (new Date()).getTime();
 				var day = days[(new Date(now+(1000 * 60 * 60 * 24 * i))).getDay()];
+				var icon = icons[forecast[i].weather[0].icon.substr(0, 2)];
+				if (conditions[forecast[i].weather[0].id]) {
+					icon = conditions[forecast[i].weather[0].id];
+				}
 				out.forecast.push({
 					day: (i == 0) ? 'Today' : day,
 					conditions: forecast[i].weather[0].description,
-					icon: 'https://ssl.gstatic.com/onebox/weather/64/'+icons[forecast[i].weather[0].icon.substr(0, 2)]+'.png',
+					icon: 'https://ssl.gstatic.com/onebox/weather/64/'+icon+'.png',
 					high: {
 						f: Math.round( self.ktof(forecast[i].temp.max) ),
 						c: Math.round( self.ktoc(forecast[i].temp.max) )
