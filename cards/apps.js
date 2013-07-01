@@ -54,6 +54,7 @@ apps.prototype.view = function(data){
 		
 		listItem.css('width', (100/this.config.columns)+'%');
 		
+		listItem.attr('data-id', data.apps[i].id);
 		listItem.attr('href', data.apps[i].url);
 		listItem.attr('title', data.apps[i].description);
 		
@@ -66,6 +67,13 @@ apps.prototype.view = function(data){
 		if (this.config.showText) {
 			listItem.find('.appname').text(data.apps[i].name);
 		}
+		
+		listItem.on('click', function(){
+			if (!$(this).attr('href')) {
+				chrome.management.launchApp($(this).attr('data-id'));
+				return false;
+			}
+		});
 		
 		listItem.appendTo(appList);
 	}
