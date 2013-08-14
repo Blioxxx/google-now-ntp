@@ -1,5 +1,5 @@
 var version;
-var oldVersion = localStorage.version || '1.1.3';
+var oldVersion = localStorage.version || '0';
 
 var notify = function(html){
 	$('#notification').html(html+'<div class="closebutton"><i class="icon-remove-sign"></i></div>')
@@ -9,19 +9,21 @@ var notify = function(html){
 		});
 };
 
-var dragThoseCards = function(){
-	notify('<p>Welcome to version '+version+'! You can now rearrange cards by dragging them.</p><p>You can reset your cards with the <i class="icon-refresh"></i> button.</p><p>You can view the default new tab page with the <i class="icon-th"></i> button.</p>');
+var allNewFeatures = function(){
+	notify('<p>Welcome to version '+version+'! Organize your cards by dragging them.');
 };
-var checkOutThoseBookmarks = function(){
-	notify('<p>Welcome to version '+version+'! You can now use your bookmarks bar with the <i class="icon-star"></i> button.</p>');
+var newDragging = function(){
+	notify('<p>Welcome to version '+version+'! You can now add a new column by dragging a card into an empty spot. You can also get rid of a column by removing all cards from it.</p>');
 };
 var upgradeCallbacks = {
-	'1.1.3 1.2': dragThoseCards,
-	'1.1.3 1.2.1': dragThoseCards,
-	'1.1.3 1.2.2': dragThoseCards,
-	'1.2 1.3': checkOutThoseBookmarks,
-	'1.2.1 1.3': checkOutThoseBookmarks,
-	'1.2.2 1.3': checkOutThoseBookmarks
+	'0': allNewFeatures,
+	'1.1.3': allNewFeatures,
+	'1.1.3': allNewFeatures,
+	'1.1.3': allNewFeatures,
+	'1.2': allNewFeatures,
+	'1.2.1': allNewFeatures,
+	'1.2.2': allNewFeatures,
+	'1.3.1': newDragging
 };
 
 $.getJSON('manifest.json', function(data){
@@ -29,7 +31,6 @@ $.getJSON('manifest.json', function(data){
 	localStorage.version = version;
 	
 	if (oldVersion != version) {
-		var cb = oldVersion+' '+version;
-		upgradeCallbacks[cb] && upgradeCallbacks[cb]();
+		upgradeCallbacks[oldVersion] && upgradeCallbacks[oldVersion]();
 	}
 });
